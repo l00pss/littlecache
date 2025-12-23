@@ -8,8 +8,8 @@ import (
 
 func TestDefaultConfig(t *testing.T) {
 	config := DefaultConfig()
-	if config.MaxSize != 1024 {
-		t.Errorf("Expected MaxSize 1024, got %d", config.MaxSize)
+	if config.MaxSize != 2048 {
+		t.Errorf("Expected MaxSize 2048, got %d", config.MaxSize)
 	}
 	if config.EvictionPolicy != LRU {
 		t.Errorf("Expected EvictionPolicy LRU, got %d", config.EvictionPolicy)

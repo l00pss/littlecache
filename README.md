@@ -6,6 +6,7 @@ A simple and fast, thread-safe cache library for Go with support for multiple ev
 
 - **Thread-safe**: Safe for concurrent use with multiple goroutines
 - **LRU Eviction**: Least Recently Used eviction policy
+- **LFU Eviction**: Least Frequently Used eviction policy
 - **Dynamic Resizing**: Change cache capacity at runtime
 - **Simple API**: Easy to use interface
 - **Zero Dependencies**: No external dependencies
@@ -29,7 +30,7 @@ import (
 )
 
 func main() {
-    // Create a new cache with default configuration (LRU, capacity: 1024)
+    // Create a new cache with default configuration (LRU, capacity: 2048)
     config := littlecache.DefaultConfig()
     cache, err := littlecache.NewLittleCache(config)
     if err != nil {
@@ -54,12 +55,24 @@ func main() {
 ### Custom Configuration
 
 ```go
+// LRU Cache
 config := littlecache.Config{
     MaxSize:        100,
     EvictionPolicy: littlecache.LRU,
 }
 
 cache, err := littlecache.NewLittleCache(config)
+if err != nil {
+    panic(err)
+}
+
+// LFU Cache
+lfu_config := littlecache.Config{
+    MaxSize:        100,
+    EvictionPolicy: littlecache.LFU,
+}
+
+lfu_cache, err := littlecache.NewLittleCache(lfu_config)
 if err != nil {
     panic(err)
 }
@@ -72,6 +85,28 @@ if err != nil {
 err := cache.Resize(200)
 if err != nil {
     panic(err)
+}
+```
+
+### Eviction Policies
+
+#### LRU (Least Recently Used)
+Evicts the least recently accessed item when cache reaches capacity.
+
+```go
+config := littlecache.Config{
+    MaxSize:        100,
+    EvictionPolicy: littlecache.LRU,
+}
+```
+
+#### LFU (Least Frequently Used)
+Evicts the least frequently accessed item when cache reaches capacity. If multiple items have the same frequency, the oldest one is evicted.
+
+```go
+config := littlecache.Config{
+    MaxSize:        100,
+    EvictionPolicy: littlecache.LFU,
 }
 ```
 
