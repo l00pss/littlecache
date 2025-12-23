@@ -5,6 +5,7 @@ A simple and fast, thread-safe cache library for Go with support for multiple ev
 ## Features
 
 - **Thread-safe**: Safe for concurrent use with multiple goroutines
+- **No Eviction**: Simple cache that doesn't evict items when full
 - **LRU Eviction**: Least Recently Used eviction policy
 - **LFU Eviction**: Least Frequently Used eviction policy
 - **TTL Support**: Time-To-Live expiration with automatic cleanup
@@ -57,13 +58,24 @@ func main() {
 ### Custom Configuration
 
 ```go
-// LRU Cache
+// NoEviction Cache (doesn't evict items when full)
 config := littlecache.Config{
+    MaxSize:        100,
+    EvictionPolicy: littlecache.NoEviction,
+}
+
+cache, err := littlecache.NewLittleCache(config)
+if err != nil {
+    panic(err)
+}
+
+// LRU Cache
+lru_config := littlecache.Config{
     MaxSize:        100,
     EvictionPolicy: littlecache.LRU,
 }
 
-cache, err := littlecache.NewLittleCache(config)
+lru_cache, err := littlecache.NewLittleCache(lru_config)
 if err != nil {
     panic(err)
 }
@@ -144,6 +156,39 @@ if err != nil {
 
 ### Eviction Policies
 
+#### NoEviction
+Doesn't evict items when cache reaches capacity. New items are simply not added if the cache is full, but existing items can still be updated.
+
+```go
+config := littlecache.Config{
+    MaxSize:        3,
+    EvictionPolicy: littlecache.NoEviction,
+}
+
+cache, err := littlecache.NewLittleCache(config)
+if err != nil {
+    panic(err)
+}
+
+// Fill cache to capacity
+cache.Set("key1", "value1")
+cache.Set("key2", "value2") 
+cache.Set("key3", "value3")
+
+// Try to add 4th item - will be ignored since cache is full
+cache.Set("key4", "value4")
+
+fmt.Println("Cache size:", cache.Size()) // Output: 3
+
+// key4 won't be found
+if _, found := cache.Get("key4"); !found {
+    fmt.Println("key4 not found - cache was full")
+}
+
+// But you can still update existing keys
+cache.Set("key1", "updated_value1") // This works
+```
+
 #### LRU (Least Recently Used)
 Evicts the least recently accessed item when cache reaches capacity.
 
@@ -199,9 +244,15 @@ ttlCache, err := littlecache.NewTTLCacheFromConfig(
 ```go
 type Config struct {
     MaxSize        int            // Maximum number of items
-    EvictionPolicy EvictionPolicy // Eviction policy (LRU, LFU, NoEviction)
+    EvictionPolicy EvictionPolicy // Eviction policy (NoEviction, LRU, LFU)
 }
 ```
+
+**Available Eviction Policies:**
+- `NoEviction`: No items are evicted when cache is full
+- `LRU`: Least Recently Used eviction
+- `LFU`: Least Frequently Used eviction
+- `TTL`: Time-To-Live expiration (used with TTL cache wrapper)
 
 #### TTL Cache Configuration
 ```go

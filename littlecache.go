@@ -72,6 +72,8 @@ func NewLittleCache(config Config) (LittleCache, error) {
 	}
 
 	switch config.EvictionPolicy {
+	case NoEviction:
+		return NewDefCache(config)
 	case LRU:
 		return NewLRUCache(config)
 	case LFU:

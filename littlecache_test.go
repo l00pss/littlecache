@@ -97,9 +97,12 @@ func TestNewLittleCache(t *testing.T) {
 
 	t.Run("no eviction policy", func(t *testing.T) {
 		config := Config{MaxSize: 10, EvictionPolicy: NoEviction}
-		_, err := NewLittleCache(config)
-		if err == nil {
-			t.Errorf("Expected error for NoEviction policy")
+		cache, err := NewLittleCache(config)
+		if err != nil {
+			t.Fatalf("Unexpected error: %v", err)
+		}
+		if _, ok := cache.(*DefCache); !ok {
+			t.Errorf("Expected DefCache type")
 		}
 	})
 }
