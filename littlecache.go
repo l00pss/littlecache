@@ -2,6 +2,7 @@ package littlecache
 
 import (
 	"errors"
+	"time"
 )
 
 type LittleCacheError error
@@ -22,6 +23,8 @@ const (
 	LRU
 	// LFU indicates that the Least Frequently Used eviction policy is applied.
 	LFU
+	// TTL indicates that the Time To Live eviction policy is applied.
+	TTL
 )
 
 type LittleCache interface {
@@ -57,7 +60,7 @@ func (c *Config) Validate() error {
 	if c.MaxSize <= 0 {
 		return ErrInvalidMaxSize
 	}
-	if c.EvictionPolicy < NoEviction || c.EvictionPolicy > LFU {
+	if c.EvictionPolicy < NoEviction || c.EvictionPolicy > TTL {
 		return ErrInvalidEvictionPolicy
 	}
 	return nil
@@ -73,6 +76,8 @@ func NewLittleCache(config Config) (LittleCache, error) {
 		return NewLRUCache(config)
 	case LFU:
 		return NewLFUCache(config)
+	case TTL:
+		return NewTTLCacheFromConfig(config, time.Duration(5*time.Minute))
 	default:
 		return nil, ErrInvalidEvictionPolicy
 	}

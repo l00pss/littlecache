@@ -1,6 +1,8 @@
 package littlecache
 
-import "sync"
+import (
+	"sync"
+)
 
 type LFUNode struct {
 	key   string
