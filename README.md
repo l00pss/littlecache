@@ -3,10 +3,11 @@
 <div align="center">
   <img src="logo.png" alt="LittleCache Logo" width="600"/>
   <br><br>
-  [![Go Version](https://img.shields.io/badge/Go-1.22+-00ADD8?style=flat&logo=go)](https://golang.org/)
-  [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-  [![Test Status](https://img.shields.io/badge/Tests-Passing-green.svg)](#testing)
-  [![Go Report Card](https://goreportcard.com/badge/github.com/l00pss/littlecache)](https://goreportcard.com/report/github.com/l00pss/littlecache)
+  <a href="https://golang.org/"><img src="https://img.shields.io/badge/go-1.25+-00ADD8?style=flat&logo=go&logoColor=white" alt="Go Version"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue?style=flat" alt="License"></a>
+  <a href="https://goreportcard.com/report/github.com/l00pss/littlecache"><img src="https://goreportcard.com/badge/github.com/l00pss/littlecache" alt="Go Report Card"></a>
+  <a href="https://github.com/l00pss/littlecache/stargazers"><img src="https://img.shields.io/github/stars/l00pss/littlecache?style=flat&logo=github" alt="GitHub Stars"></a>
+  <img src="https://img.shields.io/badge/tests-passing-brightgreen?style=flat" alt="Tests">
 </div>
 
 A simple and fast, thread-safe cache library for Go with support for multiple eviction policies.
