@@ -1,4 +1,13 @@
-# LittleCache
+
+<br>
+<div align="center">
+  <img src="logo.png" alt="LittleCache Logo" width="600"/>
+  <br><br>
+  [![Go Version](https://img.shields.io/badge/Go-1.22+-00ADD8?style=flat&logo=go)](https://golang.org/)
+  [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+  [![Test Status](https://img.shields.io/badge/Tests-Passing-green.svg)](#testing)
+  [![Go Report Card](https://goreportcard.com/badge/github.com/l00pss/littlecache)](https://goreportcard.com/report/github.com/l00pss/littlecache)
+</div>
 
 A simple and fast, thread-safe cache library for Go with support for multiple eviction policies.
 
